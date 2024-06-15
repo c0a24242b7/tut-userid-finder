@@ -21,7 +21,7 @@ const userIdFinder = async function (studentId) {
                 'Authorization': 'Basic ' + Buffer.from(`${process.env.USER_NAME}:${process.env.API_TOKEN}`).toString("base64")
             }
         });
-        console.log(parsedId + i.toString(16));
+        console.log(parsedId + i.toString(16).padStart(2, "0"));
         const data = JSON.parse(await res.text());
         if (data.status === "404") continue;
         if (data.message) throw new Error(`UnknownStatus ${data.status}: ${data.message}`);
