@@ -2,7 +2,7 @@
 
 import "dotenv/config";
 
-const targetId = "c0a25242"; // 検索対象の学籍番号
+const targetId = "c0a24210"; // 検索対象の学籍番号
 const idRegex = /^[a-z][0-9][a-z][0-9]{5}$/;
 const headers = Object.freeze({
   Authorization: `Basic ${Buffer.from(`${process.env.USER_NAME}:${process.env.API_TOKEN}`).toString("base64")}`,
@@ -53,10 +53,11 @@ async function userIdFinder(studentId, parallelCount = 4) {
     throw new TypeError(`studentId (${studentId}) does not match expected format (${idRegex.toString()})`);
   const allIds = Array.from({ length: 256 }, (_, index) => `${studentId}${index.toString(16).padStart(2, "0")}`);
   for (const fetchIds of sliceArrayByNumber(allIds, parallelCount)) {
-    console.log(fetchIds.join("\n") + "\n");
+    console.log(fetchIds.join("\n"));
     const allRes = await asyncMapParallel(fetchIds, async id => {
       const response = await fetchUser(id);
       const body = await response.json();
+      // TODO: need better type handling...
       return /** @type {import("./response").GetUserResponse} */ ({ success: response.ok, body });
     });
     for (const { success, body: data } of allRes) {
@@ -70,4 +71,4 @@ async function userIdFinder(studentId, parallelCount = 4) {
   throw new Error(`Could not find user with prefix: ${targetId}`);
 }
 
-console.log("User: " + (await userIdFinder(targetId, 32)));
+console.log("User: " + (await userIdFinder(targetId, 16)));
