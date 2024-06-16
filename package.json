@@ -1,5 +1,8 @@
 {
+  "name": "tut-userid-finder",
+  "version": "1.0.0",
   "dependencies": {
+    "@types/node": "^20.14.2",
     "dotenv": "^16.4.5"
   }
 }
