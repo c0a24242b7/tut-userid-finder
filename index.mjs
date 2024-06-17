@@ -2,7 +2,7 @@
 
 import "dotenv/config";
 
-const targetId = "c0a24210"; // 検索対象の学籍番号
+const targetId = "c0a24242"; // 検索対象の学籍番号
 const idRegex = /^[a-z][0-9][a-z][0-9]{5}$/;
 const headers = Object.freeze({
   Authorization: `Basic ${Buffer.from(`${process.env.USER_NAME}:${process.env.API_TOKEN}`).toString("base64")}`,
